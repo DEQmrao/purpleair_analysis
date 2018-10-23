@@ -135,10 +135,11 @@ create_time_sequence <- function(sensor_list, time_column, time_interval = '1 mi
 
 
 ##---------------------------------------------------------------------------------
-## create_1hour_df: function that takes in a list of dataframes with pm25/neph data
-##                  and returns a dataframe with 1-hour data
+## stats_summ: function that takes in a list of dataframes with pm25/neph data
+##             and returns a single dataframe with a statistical summary of the data.
+##             Summary includes count, first date, last date, min, avg, median, max   
 ## inputs: sensor_list (required)
-##         time_column, default = "pst
+##         stat_column, default = "pm25"
 ##---------------------------------------------------------------------------------
 
 stats_summ <- function(sensor_list, stat_column = "pm25") {
@@ -156,6 +157,14 @@ stats_summ <- function(sensor_list, stat_column = "pm25") {
 }
 
 
+##---------------------------------------------------------------------------------
+## corr_summ: function that takes in a list of Purple Air dataframes and a list of
+##            refernce dataframes, and returns a single dataframe with the 
+##            correlation of each Purple Air with each reference monitor.
+## inputs: sensor_list (required)
+##         ref_monitor_list (required)
+##---------------------------------------------------------------------------------
+
 corr_summ <- function(sensor_list, ref_monitor_list) {
   corr_df <- data.frame(site = names(sensor_list))
   num_sen <- length(sensor_list)
@@ -171,6 +180,16 @@ corr_summ <- function(sensor_list, ref_monitor_list) {
   return(corr_df)
 }
 
+##---------------------------------------------------------------------------------
+## r2_summ: function that takes in a list of Purple Air dataframes and a list of
+##            refernce dataframes, and returns a single dataframe with the 
+##            Adjusted R2  of each Purple Air with each reference monitor.
+##            Two R2 values are returned: one for the goodness of fit with the reference
+##            monitor, and one for the goodness-of-fit including temperature and 
+##            relative humidity.
+## inputs: sensor_list (required)
+##         ref_monitor_list (required)
+##---------------------------------------------------------------------------------
 r2_summ <- function(sensor_list, ref_monitor_list) {
   r2_df <- data.frame(site = names(sensor_list))
   num_sen <- length(sensor_list)
@@ -191,6 +210,16 @@ r2_summ <- function(sensor_list, ref_monitor_list) {
   return(r2_df)
 }
 
+
+##---------------------------------------------------------------------------------
+## create_distance_matrix: function that takes in a dataframe with the names and lat and lon
+##                         for the reference monitors and a similar dataframe with the names
+##                         and lat-lon of the Purple Airs used in the analysis.
+##                         Returns a dataframe with distance (in km) of each sensor (rows) from
+##                         each reference monitor (columns).
+## inputs: ref_lat_long, default = NULL
+##         sensor_lat_long, default = NULL
+##---------------------------------------------------------------------------------
 create_distance_matrix <- function(ref_lat_long = NULL, sensor_lat_long = NULL) {
   if (is.null(ref_lat_long)) { ref_lat_long <- ref_lat_lon }
   if (is.null(sensor_lat_long)) {
