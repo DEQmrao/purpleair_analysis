@@ -7,4 +7,5 @@ The main goal of this repo is to be able to help analyze Purple Air data and ans
   + Are regional/local corrections required for better correlation between Purple Airs and nephs and/or FEM methods?
   + Are seasonal (summer/winter, wildfire/non-fire) corrections required for better correlation between Purple Airs and nephs and/or FEM methods?
   + What is the lifetime of the Purple Air sensors?
-  + Do the 
+  + Do the Purple Air sensors show a zero drift?
+  + Is there a way of readily identifying failing sensors?
