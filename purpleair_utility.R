@@ -147,11 +147,11 @@ stats_summ <- function(sensor_list, stat_column = "pm25") {
     count = sapply(sensor_list, function(df) { sum(!(is.na(df[, stat_column])))}),
     first_date = sapply(sensor_list, function(df) { as.character(min(df$day, na.rm = TRUE))}),
     last_date = sapply(sensor_list, function(df) { as.character(max(df$day, na.rm = TRUE))}),
-    min = sapply(sensor_list, function(df) { min(df[, stat_column], na.rm = TRUE)}),
-    avg = sapply(sensor_list, function(df) { mean(df[, stat_column], na.rm = TRUE)}),
-    median = sapply(sensor_list, function(df) { median(df[, stat_column], na.rm = TRUE)}),
-    max = sapply(sensor_list, function(df) { max(df[, stat_column], na.rm = TRUE)}),
-    std_dev = sapply(sensor_list, function(df) { sd(df[, stat_column], na.rm = TRUE)})
+    min = sapply(sensor_list, function(df) { round(min(df[, stat_column], na.rm = TRUE),2)}),
+    avg = sapply(sensor_list, function(df) { round(mean(df[, stat_column], na.rm = TRUE),2)}),
+    median = sapply(sensor_list, function(df) { round(median(df[, stat_column], na.rm = TRUE),2)}),
+    max = sapply(sensor_list, function(df) { round(max(df[, stat_column], na.rm = TRUE),2)}),
+    std_dev = sapply(sensor_list, function(df) { round(sd(df[, stat_column], na.rm = TRUE),2)})
   )
   return(stat)
 }
@@ -174,7 +174,7 @@ corr_summ <- function(sensor_list, ref_monitor_list) {
     corr_df[, coln] <- NA
     for(s in 1:num_sen) {
       df <- merge(sensor_list[[s]], ref_monitor_list[[r]], by = c("day", "hour"))
-      corr_df[s, coln] <- cor(df$pm25, df$neph, use = "complete.obs")
+      corr_df[s, coln] <- round(cor(df$pm25, df$neph, use = "complete.obs"),3)
     }
   }
   return(corr_df)
