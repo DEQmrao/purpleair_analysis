@@ -48,19 +48,40 @@ This documents compares the PM2.5 readings of ~14 Purple Air sensors in the Port
 ```{r ref_stat, echo = FALSE, results = 'asis'}
 library(flextable)
 library(officer)
-tb <- regulartable(ref_stat_1h, col_keys = c("Count", "First Obs.", "Last Obs.", "Min",
-                                             "Max", "Mean", "Median", "Std. Dev."))
-knitr::knit_print(tb)
+ref_stat_1h$site <- rownames(ref_stat_1h)
+colnames(ref_stat_1h) <-  c("Count", "First Obs", "Last Obs", "Min",
+                                 "Mean", "Median", "Max", "Std Dev", "Site")
+t1 <- regulartable(ref_stat_1h) 
+
+t3 <- fontsize(t1, part = "all", size = 12)
+t3 <- fontsize(t3, part = "header", size = 14)
+t3 <- bold(t3, part = "header")
+t3 <- autofit(t3)
+t3
 ```
 
 #### Summary statistics for the reference monitors
-```{r sen_stat, echo = FALSE}
-knitr::kable(sen_stat_1h)
+```{r sen_stat, echo = FALSE, results = 'asis'}
+t1 <- regulartable(sen_stat_1h) 
+
+t3 <- fontsize(t1, part = "all", size = 12)
+t3 <- fontsize(t3, part = "header", size = 14)
+t3 <- bold(t3, part = "header")
+t3 <- autofit(t3)
+t3
+
 ```
 
 #### Correlation between the Purple Air sensors and reference nephs
-```{r correl, echo=FALSE}
-knitr::kable(corr_df)
+```{r correl, echo=FALSE, results = 'asis'}
+t1 <- regulartable(corr_dist) 
+
+t3 <- fontsize(t1, part = "all", size = 12)
+t3 <- fontsize(t3, part = "header", size = 14)
+t3 <- bold(t3, part = "header")
+t3 <- autofit(t3)
+t3
+
 ```
 
 #### Graph showing correlation with distance, colored by Purple Air sensor
@@ -85,6 +106,7 @@ plot(g)
 
 #### Graph showing correlation with distance, colored by reference neph
 ```{r dist-corr-by-ref, echo = FALSE}
+knitr::opts_chunk$set(fig.width=7.5, fig.height=8) 
 #library(ggplot2)
 r <- ggplot(data = corr_dist, aes(dist, corr )) + 
   theme_minimal() +
@@ -100,4 +122,8 @@ r <- ggplot(data = corr_dist, aes(dist, corr )) +
 plot(r)
 
 ```
+
+
+
+
 
